@@ -29,6 +29,12 @@ async function run() {
       }
       next();
     };
+
+    app.get("/categories", async (req, res) => {
+      const query = {};
+      const results = await categorizedProductsCollection.find(query).toArray();
+      res.send(results);
+    });
   } finally {
   }
 }

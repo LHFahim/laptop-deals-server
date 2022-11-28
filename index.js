@@ -42,6 +42,19 @@ async function run() {
       const results = await productsCollection.find(query).toArray();
       res.send(results);
     });
+
+    app.get("/products/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { seller_email: email };
+      const results = await productsCollection.find(query).toArray();
+      res.send(results);
+    });
+
+    app.get("/advertiseditems", async (req, res) => {
+      const query = { advertised: true };
+      const results = await productsCollection.find(query).toArray();
+      res.send(results);
+    });
   } finally {
   }
 }

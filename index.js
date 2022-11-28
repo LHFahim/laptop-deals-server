@@ -35,6 +35,13 @@ async function run() {
       const results = await categorizedProductsCollection.find(query).toArray();
       res.send(results);
     });
+
+    app.get("/category/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { category_id: id || !paid };
+      const results = await productsCollection.find(query).toArray();
+      res.send(results);
+    });
   } finally {
   }
 }

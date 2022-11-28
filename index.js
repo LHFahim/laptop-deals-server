@@ -8,6 +8,32 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// apis in try finally
+async function run() {
+  try {
+    const categorizedProductsCollection = client
+      .db("laptopDeals")
+      .collection("categorisedProducts");
+    const usersCollection = client.db("laptopDeals").collection("users");
+    const bookingsCollection = client.db("laptopDeals").collection("bookings");
+    const productsCollection = client.db("laptopDeals").collection("products");
+    const paymentsCollection = client.db("laptopDeals").collection("payments");
+
+    const verifyAdmin = async (req, res, next) => {
+      const decodedEmail = req.decoded.email;
+      const query = { email: decodedEmail };
+      const user = await usersCollection.findOne(query);
+
+      if (user?.role !== "admin") {
+        return res.status(403).send({ message: "forbidden access" });
+      }
+      next();
+    };
+  } finally {
+  }
+}
+run().catch(console.log);
+
 app.get("/", async (req, res) => {
   res.send("Laptop Deals is running...");
 });
